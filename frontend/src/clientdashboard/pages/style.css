@@ -1,0 +1,14 @@
+.container .mt-5 d-flex .justify-content-end {
+    margin-bottom: 5rem;
+}
+
+
+nav.sideBarMenu {
+    width: 300px;
+    height: 100vh;
+}
+
+button.btn {
+    width: 100%;
+    padding: 0;
+}
