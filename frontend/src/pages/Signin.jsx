@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../components/AuthContext.jsx";
 
 export const Signin = () => {
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { setIsLoggedIn } = useContext(AuthContext);
@@ -41,6 +42,7 @@ export const Signin = () => {
                     localStorage.setItem("project", JSON.stringify(response.data.project));
                 }
                 localStorage.removeItem('TEMP_LINK');
+                setIsLoggedIn(true);
                 navigate("/map");
             }
         } catch (error) {
