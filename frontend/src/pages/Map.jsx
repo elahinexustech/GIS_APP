@@ -75,9 +75,9 @@ const Map = () => {
             if (polygonCoordinates.length > 0) {
                 setBoundaryFromPolygon([polygonCoordinates]);
                 const center = getPolygonCenter(polygonCoordinates);
-                mapRef.current.flyTo({ center, zoom: 8 });
+                mapRef.current.flyTo({ center, zoom: 12 });
             } else {
-                mapRef.current.flyTo({ center: [-87.63236, 41.881954], zoom: 8 });
+                mapRef.current.flyTo({ center: [-87.63236, 41.881954], zoom: 12 });
             }
         }
 
@@ -637,6 +637,8 @@ const Map = () => {
                     icon_type: iconType,
                 };
 
+                console.log(interactionData)
+
                 fetch(`http://127.0.0.1:8000/api/markers/interactions/`, {
                     method: "POST",
                     headers: {
@@ -733,7 +735,7 @@ const Map = () => {
                 const { center, geometry } = feature;
 
                 const [lon, lat] = center;
-                mapRef.current.flyTo({ center: [lon, lat], zoom: 8 });
+                mapRef.current.flyTo({ center: [lon, lat], zoom: 12 });
 
                 setSelectedRegion([{ latitude: lat, longitude: lon }]);
 
@@ -912,7 +914,7 @@ const Map = () => {
         });
 
         const center = getPolygonCenter([polygonCoordinates]);
-        mapRef.current.flyTo({ center, zoom: 8 });
+        mapRef.current.flyTo({ center, zoom: 12 });
     }
 
     return (

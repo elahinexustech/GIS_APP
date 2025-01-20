@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'full_name', 'email', 'password')
+        fields = ('id', 'email', 'password')
 
     def create(self, validated_data):
         # Extract the password from validated_data

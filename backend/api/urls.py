@@ -17,7 +17,8 @@ from .views import (
     GetProjects,
     ProjectsMarkers,
     GenerateLink,
-    IsBuyer
+    IsBuyer,
+    SupportEmailView
 )
 
 # Set up the router
@@ -55,4 +56,6 @@ urlpatterns = [
     
     # Coupon Generation
     path('generate/link', GenerateLink.as_view(), name='generate-link'),
+    
+    path("send-email/", SupportEmailView.as_view(), name="send_email"),
 ]

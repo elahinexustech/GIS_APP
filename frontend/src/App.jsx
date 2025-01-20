@@ -4,8 +4,9 @@ import 'bootstrap';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './components/AuthContext.jsx';
 import { Home } from './pages/Home';
-import Help from './pages/Help';
+import Support from './pages/Support.jsx';
 import { Signin } from './pages/Signin';
+import TermsAndConditions from './pages/TermsConditions.jsx';
 import Register from './pages/Register';
 import Map from './pages/Map';
 import { Navbar } from './components/Navbar';
@@ -30,7 +31,8 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/about-us" element={<Aboutus />} />
                         <Route path="/demo" element={<Demo />} />
-                        <Route path="/help" element={<Help />} />
+                        <Route path="/support" element={<Support />} />
+                        <Route path="/legal" element={<TermsAndConditions />} />
 
                         {/* Dashboard urls */}
                         <Route path="/dashboard" element={<Dashboard />} />

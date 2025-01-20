@@ -58,6 +58,9 @@ export const Navbar = () => {
                                 <Link className="nav-link" to="/demo">Demo</Link>
                             </li>
                             <li className="nav-item">
+                                <Link className="nav-link" to="/legal">Legal</Link>
+                            </li>
+                            <li className="nav-item">
                                 <Link className="nav-link" to="/support">Support</Link>
                             </li>
                             {isLoggedIn && (
@@ -112,14 +115,20 @@ export const Navbar = () => {
 
                         {/* Social Media Icons */}
                         <div className="d-flex align-items-center ms-4">
-                            <a href="#" className="text-white me-3">
+                            <a href="https://facebook.com/mappexgeo" className="text-white me-3" target='_blank'>
                                 <i className="bi bi-facebook"></i>
                             </a>
-                            <a href="#" className="text-white me-3">
+                            <a href="http://x.com/mappexgeo" className="text-white me-3" target='_blank'>
                                 <i className="bi bi-twitter"></i>
                             </a>
-                            <a href="#" className="text-white">
+                            <a href="https://instagram.com/mappexgeo" className="text-white me-3" target='_blank'>
+                                <i className="bi bi-instagram"></i>
+                            </a>
+                            <a href="https://linkedIn.com/mappexgeo" className="text-white me-3" target='_blank'>
                                 <i className="bi bi-linkedin"></i>
+                            </a>
+                            <a href="https://tiktok.com/mappexgeo" className="text-white me-3" target='_blank'>
+                                <i className="bi bi-tiktok"></i>
                             </a>
                         </div>
                     </div>

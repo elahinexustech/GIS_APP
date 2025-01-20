@@ -4,7 +4,7 @@ from .models import Buyer, User, Marker, Comment, MarkerInteraction, CouponLink,
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'email')
+    list_display = ('email',)
 
 admin.site.register(User, UserAdmin)
 

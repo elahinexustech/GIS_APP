@@ -55,7 +55,6 @@ const Register = () => {
                     <h3 className="mb-4 text-center">Create an Account</h3>
                     <form onSubmit={handleSubmit}>
                         {[
-                            { label: "Full Name", name: "fullName", type: "text" },
                             { label: "Email Address", name: "email", type: "email" },
                             { label: "Password", name: "password", type: "password" },
                             { label: "Confirm Password", name: "confirmPassword", type: "password" },

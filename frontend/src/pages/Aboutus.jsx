@@ -49,7 +49,7 @@ export const Aboutus = () => {
                                 For any inquiries or more information, feel free to reach out to us!
                             </p>
                             <a href="mailto:info@example.com" className="btn btn-primary">
-                                <i className="fas fa-envelope me-2"></i>info@example.com
+                                Support
                             </a>
                         </div>
                     </div>

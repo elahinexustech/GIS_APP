@@ -9,14 +9,13 @@ export const Footer = () => {
         <footer className="footer-section bg-light py-5">
             <div className="container">
                 {/* Main Footer Content */}
-                <div className="row g-5 mb-5">
+                <div style={{'display': 'flex', 'alignItems': 'center', 'justifyContent': 'flex-end'}}>
                     {/* Left Section */}
-                    <div className="col-lg-4">
-                        <div className="footer-logo-wrap mb-4 flex">
-                            <a href="#" className="footer-logo h2 text-dark fw-bold">
-                                MAPPAX<span className="text-primary">.</span>
+                    <div className="col-lg-4 d-flex">
+                        <div className="footer-logo-wrap mb-4">
+                            <a href="/" className="footer-logo h2 text-dark fw-bold">
+                                <img src="./logo.jpeg" width="200" alt="Logo" />
                             </a>
-                            <img src="./logo.jpeg" width="200" alt="Logo" />
                         </div>
                         <ul className="list-unstyled d-flex custom-social mt-4">
                             <li className="me-3">
@@ -43,7 +42,7 @@ export const Footer = () => {
                     </div>
 
                     {/* Navigation Menu Section */}
-                    <div className="col-lg-8">
+                    <div className="col-lg-8 d-flex">
                         <ul className="list-unstyled d-flex flex-wrap">
                             {/* Common Links */}
                             <li className="me-4">
@@ -94,24 +93,18 @@ export const Footer = () => {
                                     </ul>
                                 </li>
                             )}
+                            <li  className="d-flex align-items-center">
+                                    {isLoggedIn ? (
+                                        <Link style={{'textDecoration': 'none'}} className='text-dark' to="/subscription-details">Upgrade</Link>
+                                    ) : (
+                                        <>
+                                            <Link className="btn bg-secondary btn-sm me-4" to="/login">Log in</Link>
+                                            <Link className="btn bg-secondary btn-sm" to="/register">Sign up</Link>
+                                        </>
+                                    )}
+                            </li>
                         </ul>
 
-                        {/* Buttons (Horizontal Layout) */}
-                        <div className="d-flex align-items-center">
-                            {isLoggedIn ? (
-                                <button
-                                    className="btn bg-secondary btn-sm me-4"
-                                    onClick={() => { window.location = '/subscription-details'; }}
-                                >
-                                    Upgrade
-                                </button>
-                            ) : (
-                                <>
-                                    <Link className="btn bg-secondary btn-sm me-4" to="/login">Log in</Link>
-                                    <Link className="btn bg-secondary btn-sm" to="/register">Sign up</Link>
-                                </>
-                            )}
-                        </div>
                     </div>
                 </div>
             </div>

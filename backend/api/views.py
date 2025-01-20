@@ -1,8 +1,12 @@
+from django.core.mail import send_mail
 from rest_framework import viewsets, generics, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 from .models import (
     User,
@@ -118,7 +122,6 @@ class UserView(APIView):
         is_buyer = Buyer.objects.filter(user=user).exists()
         buyer_id = Buyer.objects.filter(user=user).first().id if is_buyer else None
         return JsonResponse({"is_buyer": is_buyer, "buyer_id": buyer_id, **UserSerializer(user).data})
-        return JsonResponse(UserSerializer(user).data)
 
 
 class AddBuyer(APIView):
@@ -246,7 +249,8 @@ class MarkerInteractionCountView(APIView):
         user = get_object_or_404(User, id=user_id)
 
         if MarkerInteraction.objects.filter(marker=marker, user=user, icon_type=icon_type).exists():
-            return Response({"message": "User has already interacted with this icon."}, status=status.HTTP_400_BAD_REQUEST)
+            print("ALREADY INTERACTED")
+            return Response({"message": "User has already interacted with this icon."}, status=status.HTTP_208_ALREADY_REPORTED)
 
         MarkerInteraction.objects.create(
             marker=marker, user=user, icon_type=icon_type)
@@ -489,3 +493,39 @@ class GenerateLink(APIView):
 class CSRFTokenView(APIView):
     def get(self, request):
         return JsonResponse({'csrfToken': get_token(request)})
+
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class SupportEmailView(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            # Parse JSON data from the request body
+            data = json.loads(request.body)
+            name = data.get("name")
+            email = data.get("email")
+            question = data.get("question")
+
+            if not name or not email or not question:
+                return JsonResponse({"message": "All fields are required"}, status=400)
+
+            # Construct the email
+            subject = f"Support Request from {name}"
+            message = f"""
+            Name: {name}
+            Email: {email}
+            Question: {question}
+            """
+
+            # Send the email
+            send_mail(
+                subject,
+                message,
+                "support@mappexgeo.com",  # Replace with your email
+                ["mappexgeo@gmail.com"],  # Replace with the recipient email
+                fail_silently=False,
+            )
+            return JsonResponse({"message": "Email sent successfully!"}, status=200)
+        except Exception as e:
+            print(e)
+            return JsonResponse({"message": "Failed to send email", "error": str(e)}, status=500)

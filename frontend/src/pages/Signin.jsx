@@ -6,48 +6,49 @@ import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../components/AuthContext.jsx";
 
 export const Signin = () => {
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { setIsLoggedIn } = useContext(AuthContext);
     const [region, setRegion] = useState(null); // State for storing region
+    const [loading, setLoading] = useState(false); // State for managing form disabled state
     const navigate = useNavigate();
 
     useEffect(() => {
-        const searchParams = window.location.href;  // Get the full URL
-        const regionPart = searchParams.split('region=')[1];  // Extract the region part after 'region='
+        const searchParams = window.location.href; // Get the full URL
+        const regionPart = searchParams.split("region=")[1]; // Extract the region part after 'region='
         // Handle the case if region exists and set it to state
         if (regionPart) {
-            const region_coordinates = regionPart.split('&')[0];  // Get the coordinates (before any '&' in case of other params)
-            setRegion(region_coordinates);  // Save it in state
+            const region_coordinates = regionPart.split("&")[0]; // Get the coordinates (before any '&' in case of other params)
+            setRegion(region_coordinates); // Save it in state
         }
     }, []);
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true); // Disable the form during submission
 
         try {
             const response = await axios.post(
                 "http://127.0.0.1:8000/api/login/",
-                { email, password, region: localStorage.getItem('TEMP_LINK') }, // Include region in the login request
+                { email, password, region: localStorage.getItem("TEMP_LINK") }, // Include region in the login request
                 { withCredentials: true }
             );
 
             if (response.status === 200) {
-                toast.success("Login successful!");
 
                 if (response.data.is_buyer === false && region != null) {
                     localStorage.setItem("region", region);
                     localStorage.setItem("project", JSON.stringify(response.data.project));
                 }
-                localStorage.removeItem('TEMP_LINK');
+                localStorage.removeItem("TEMP_LINK");
                 setIsLoggedIn(true);
                 navigate("/map");
             }
         } catch (error) {
             console.error("Login error:", error.response?.data || error);
             toast.error("Login failed. Please try again.");
+        } finally {
+            setLoading(false); // Re-enable the form
         }
     };
 
@@ -77,6 +78,7 @@ export const Signin = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
+                                    disabled={loading}
                                 />
                             </div>
 
@@ -89,6 +91,7 @@ export const Signin = () => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
+                                    disabled={loading}
                                 />
                             </div>
 
@@ -98,18 +101,17 @@ export const Signin = () => {
                                         type="checkbox"
                                         className="form-check-input"
                                         id="rememberMe"
+                                        disabled={loading}
                                     />
-                                    <label className="form-check-label" htmlFor="rememberMe">
-                                        Remember me
-                                    </label>
                                 </div>
-                                <a href="#" className="text-muted">
-                                    Forgot password?
-                                </a>
                             </div>
 
-                            <button type="submit" className="btn btn-primary btn-lg w-100 mb-4">
-                                Sign In
+                            <button
+                                type="submit"
+                                className="btn btn-primary btn-lg w-100 mb-4"
+                                disabled={loading}
+                            >
+                                {loading ? "Signing In..." : "Sign In"}
                             </button>
                         </form>
 

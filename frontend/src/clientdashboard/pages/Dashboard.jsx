@@ -16,6 +16,15 @@ const SidebarMenu = ({ projects, activeSection, setActiveSection, setSelectedPro
         >
             Home
         </button>
+        <br />
+        <button
+            className={`list-group-item list-group-item-action py-2 ${activeSection === 'home' ? 'active' : ''} bg-success`}
+            onClick={() => {
+                window.location = '/map'
+            }}
+        >
+            New Project
+        </button>
 
         <h5 className="mt-4">Projects</h5>
         {projects.map((project, index) => (
@@ -44,7 +53,7 @@ const SidebarMenu = ({ projects, activeSection, setActiveSection, setSelectedPro
                             className={`dropdown-item ${activeSection === 'active-users' ? 'active' : ''}`}
                             onClick={() => setActiveSection('active-users')}
                         >
-                            Active Users
+                            Active Members
                         </button>
                     </li>
                     <li>
@@ -140,7 +149,7 @@ const Dashboard = () => {
     const renderComments = (comments) => {
         return comments.map((comment) => (
             <div key={comment.id} style={{ marginLeft: '20px', marginBottom: '10px' }}>
-                <strong>{comment.user.full_name}</strong>: {comment.text}
+                <strong>{comment.user.email}</strong>: {comment.text}
                 {comment.replies.length > 0 && (
                     <div style={{ marginLeft: '20px', marginTop: '10px' }}>
                         {renderComments(comment.replies)}
@@ -176,7 +185,7 @@ const Dashboard = () => {
                         <div>
                             {selectedProject.coupon.link ? (
                                 <>
-                                    <p>Share this link with users:</p>
+                                    <p>Share this link with Members:</p>
                                     <a
                                         href={selectedProject.coupon.link}
                                         target="_blank"
@@ -204,13 +213,12 @@ const Dashboard = () => {
             case 'active-users':
                 return (
                     <div className="container mt-5">
-                        <h2>Active Users</h2>
+                        <h2>Active Members</h2>
                         {selectedProject.coupon.users_connected.length > 0 ? (
                             <table className="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Name</th>
                                         <th>Email</th>
                                     </tr>
                                 </thead>
@@ -220,14 +228,13 @@ const Dashboard = () => {
                                         .map((user, index) => (
                                             <tr key={index}>
                                                 <td>{user.id}</td>
-                                                <td>{user.full_name}</td>
                                                 <td>{user.email}</td>
                                             </tr>
                                         ))}
                                 </tbody>
                             </table>
                         ) : (
-                            <p>No active users available</p>
+                            <p>No active Members available</p>
                         )}
                     </div>
                 );
@@ -240,7 +247,7 @@ const Dashboard = () => {
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>User</th>
+                                        <th>Member</th>
                                         <th>Comment</th>
                                         <th>Replies</th>
                                     </tr>
@@ -249,7 +256,7 @@ const Dashboard = () => {
                                     {selectedProject.comment.map((comment, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td>{comment.user.full_name}</td>
+                                            <td>{comment.user.email}</td>
                                             <td>{comment.text}</td>
                                             <td>{comment.replies && comment.replies.length > 0 ? (
                                                 comment.replies.map((reply, i) => (
@@ -278,7 +285,7 @@ const Dashboard = () => {
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>User</th>
+                                        <th>Member</th>
                                         <th>Latitude</th>
                                         <th>Longitude</th>
                                     </tr>
@@ -287,7 +294,7 @@ const Dashboard = () => {
                                     {selectedProject.likes.map((likes, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td>{likes.user.full_name}</td>
+                                            <td>{likes.user.email}</td>
                                             <td>{likes.latitude}</td>
                                             <td>{likes.longitude}</td>
                                         </tr>
@@ -308,7 +315,7 @@ const Dashboard = () => {
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>User</th>
+                                        <th>Member</th>
                                         <th>Latitude</th>
                                         <th>Longitude</th>
                                     </tr>
@@ -317,7 +324,7 @@ const Dashboard = () => {
                                     {selectedProject.dislikes.map((dislikes, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td>{dislikes.user.full_name}</td>
+                                            <td>{dislikes.user.email}</td>
                                             <td>{dislikes.latitude}</td>
                                             <td>{dislikes.longitude}</td>
                                         </tr>

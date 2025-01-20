@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
 
 class User(models.Model):
-    full_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
 
@@ -59,7 +58,7 @@ class Comment(models.Model):
     project = models.ForeignKey('ProjectsModel', on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
 
     def __str__(self):
-        return f"Comment by {self.user.full_name} on {self.marker.icon_type}"
+        return f"Comment by {self.user.email} on {self.marker.icon_type}"
 
 class CouponLink(models.Model):
     buyer = models.ForeignKey(Buyer, on_delete=models.CASCADE, related_name='coupon_links')
