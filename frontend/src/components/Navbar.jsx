@@ -12,7 +12,7 @@ export const Navbar = () => {
     const handleLogout = async () => {
         if (confirm("Are you sure you want to logout!")) {
             try {
-                await axios.post('http://127.0.0.1:8000/api/logout/', {}, { withCredentials: true });
+                await axios.post('${BASE_URL}/api/logout/', {}, { withCredentials: true });
                 setIsLoggedIn(false);
                 navigate('/login');
             } catch (error) {

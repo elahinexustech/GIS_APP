@@ -12,7 +12,7 @@ export const MapDashboard = ({ regionCoordinates, generateLinkDisable }) => {
 
         const checkSession = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/check-session", {
+                const response = await axios.get("${BASE_URL}/api/check-session", {
                     withCredentials: true,
                 });
 
@@ -40,7 +40,7 @@ export const MapDashboard = ({ regionCoordinates, generateLinkDisable }) => {
 
         try {
             const response = await axios.post(
-                "http://127.0.0.1:8000/api/generate/link",
+                "${BASE_URL}/api/generate/link",
                 {
                     coordinates: polygonCoordinates, // Use the polygon coordinates
                 },

@@ -5,6 +5,10 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../components/AuthContext.jsx";
 
+import { SERVER, PORT } from '../../_CONST_';
+
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 export const Signin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -29,7 +33,7 @@ export const Signin = () => {
 
         try {
             const response = await axios.post(
-                "http://127.0.0.1:8000/api/login/",
+                `${BASE_URL}/api/login/`,
                 { email, password, region: localStorage.getItem("TEMP_LINK") }, // Include region in the login request
                 { withCredentials: true }
             );

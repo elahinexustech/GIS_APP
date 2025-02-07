@@ -13,6 +13,10 @@ import axios from 'axios';
 
 mapboxgl.accessToken = "pk.eyJ1IjoibWVycmlsIiwiYSI6ImNscTZ0dHBwcjB3cGUyam14eWlxM3Q1aWgifQ.WxB3FepLWrhZ4kqtL2F5Iw";
 
+import { SERVER, PORT } from '../../_CONST_';
+
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 const Map = () => {
     const { setSelectedRegion } = useContext(RegionContext);
     const [markers, setMarkers] = useState([]);
@@ -261,7 +265,7 @@ const Map = () => {
 
     const fetchMarkers = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:8000/api/markers/", { withCredentials: true });
+            const response = await axios.get(`${BASE_URL}/api/markers/`, { withCredentials: true });
             const data = response.data;
 
             data.forEach((marker) => {
@@ -583,7 +587,7 @@ const Map = () => {
 
     const fetchComments = async (markerId) => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/comments/fetch/?marker_id=${markerId}`, { withCredentials: true, });
+            const response = await axios.get(`${BASE_URL}/api/comments/fetch/?marker_id=${markerId}`, { withCredentials: true, });
             return response.data;
         } catch (error) {
             console.error("Error fetching comments:", error);
@@ -593,7 +597,7 @@ const Map = () => {
 
     const saveComment = async (markerId, commentText, parentId = null) => {
         try {
-            const sessionResponse = await axios.get("http://127.0.0.1:8000/api/check-session/", {
+            const sessionResponse = await axios.get(`${BASE_URL}/api/check-session/`, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -609,7 +613,7 @@ const Map = () => {
                     parent_id: parentId,
                 };
 
-                const commentResponse = await axios.post("http://127.0.0.1:8000/api/comments/", commentData, {
+                const commentResponse = await axios.post(`${BASE_URL}/api/comments/`, commentData, {
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -625,7 +629,7 @@ const Map = () => {
 
 
     const fetchMarkerDetails = (markerId, userId) => {
-        fetch(`http://127.0.0.1:8000/api/markers/${markerId}/`)
+        fetch(`${BASE_URL}/api/markers/${markerId}/`)
             .then((response) => response.json())
             .then((data) => {
                 const iconType = data.icon_type;
@@ -639,7 +643,7 @@ const Map = () => {
 
                 console.log(interactionData)
 
-                fetch(`http://127.0.0.1:8000/api/markers/interactions/`, {
+                fetch(`${BASE_URL}/api/markers/interactions/`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -673,7 +677,7 @@ const Map = () => {
 
     const addMarkersAtLocation = async (lngLat, iconType) => {
         try {
-            const sessionResponse = await axios.get("http://127.0.0.1:8000/api/check-session/", { withCredentials: true });
+            const sessionResponse = await axios.get(`${BASE_URL}/api/check-session/`, { withCredentials: true });
 
             if (sessionResponse.data.isLoggedIn) {
                 const userId = sessionResponse.data.user_id;
@@ -689,7 +693,7 @@ const Map = () => {
 
                 createCustomMarkers(lngLat, selectedIcon);
 
-                const resp = await axios.post("http://127.0.0.1:8000/api/markers/", markerData, { withCredentials: true });
+                const resp = await axios.post(`${BASE_URL}/api/markers/`, markerData, { withCredentials: true });
 
                 setMarkers([...markers, markerData]);
             } else {
@@ -830,14 +834,14 @@ const Map = () => {
 
     const fetchProjects = async () => {
         try {
-            const projectResponse = await axios.get("http://127.0.0.1:8000/api/projects/", {
+            const projectResponse = await axios.get(`${BASE_URL}/api/projects/`, {
                 withCredentials: true,
             });
 
             const projects = projectResponse.data.merged_data;
             setProjects(projects);
 
-            const userResponse = await axios.get("http://127.0.0.1:8000/api/users", {
+            const userResponse = await axios.get(`${BASE_URL}/api/users`, {
                 withCredentials: true,
             })
 
@@ -862,7 +866,7 @@ const Map = () => {
 
         const polygonCoordinates = coordinates.map(coord => [coord.longitude, coord.latitude]);
         setBoundaryFromPolygon([polygonCoordinates]);
-        const resp = await axios.post(`http://127.0.0.1:8000/api/projects/markers/`, { project: data }, { withCredentials: true })
+        const resp = await axios.post(`${BASE_URL}/api/projects/markers/`, { project: data }, { withCredentials: true })
 
         const markers = resp.data.markers;
 

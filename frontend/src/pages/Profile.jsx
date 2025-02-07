@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+import { SERVER, PORT } from '../../_CONST_';
+
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 export const Profile = () => {
     const [user, setUser] = useState(null); // State to store user details
     const [isLoading, setIsLoading] = useState(true); // Loading state
@@ -10,11 +14,11 @@ export const Profile = () => {
     // Function to check session and fetch user details
     const fetchUserDetails = async () => {
         try {
-            const sessionResponse = await axios.get('http://127.0.0.1:8000/api/check-session/', { withCredentials: true });
+            const sessionResponse = await axios.get(`${BASE_URL}/api/check-session/`, { withCredentials: true });
             const userId = sessionResponse.data.user_id;
 
             if (userId) {
-                const userResponse = await axios.get(`http://127.0.0.1:8000/api/users/${userId}/`, { withCredentials: true });
+                const userResponse = await axios.get(`${BASE_URL}/api/users/${userId}/`, { withCredentials: true });
                 setUser(userResponse.data); // Set user data in state
             } else {
                 navigate('/login'); // Redirect to login
@@ -34,7 +38,7 @@ export const Profile = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post('http://127.0.0.1:8000/api/logout/', {}, { withCredentials: true });
+            await axios.post(`${BASE_URL}/api/logout/`, {}, { withCredentials: true });
             navigate('/login');
         } catch (error) {
             console.error("Error logging out:", error);

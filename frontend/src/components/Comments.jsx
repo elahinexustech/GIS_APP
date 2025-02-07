@@ -124,7 +124,7 @@ const Comments = ({ markerId }) => {
 
     const fetchComments = async (markerId) => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/comments/fetch/?marker_id=${markerId}`, { withCredentials: true });
+            const response = await axios.get(`${BASE_URL}/api/comments/fetch/?marker_id=${markerId}`, { withCredentials: true });
             setComments(response.data);
         } catch (error) {
             console.error("Error fetching comments:", error);
@@ -133,7 +133,7 @@ const Comments = ({ markerId }) => {
 
     const saveComment = async (commentText, parentId = null) => {
         try {
-            const sessionResponse = await axios.get("http://127.0.0.1:8000/api/check-session/", {
+            const sessionResponse = await axios.get("${BASE_URL}/api/check-session/", {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -149,7 +149,7 @@ const Comments = ({ markerId }) => {
                     parent_id: parentId,
                 };
 
-                const commentResponse = await axios.post("http://127.0.0.1:8000/api/comments/", commentData, {
+                const commentResponse = await axios.post("${BASE_URL}/api/comments/", commentData, {
                     headers: {
                         "Content-Type": "application/json",
                     },

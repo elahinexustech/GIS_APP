@@ -2,6 +2,10 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
+import { SERVER, PORT } from '../../_CONST_';
+
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 const SharedLinkHandler = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -9,7 +13,7 @@ const SharedLinkHandler = () => {
     useEffect(() => {
         const checkAuthAndHandleLink = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/check-session/", {
+                const response = await axios.get(`${BASE_URL}/api/check-session/`, {
                     withCredentials: true,
                 });
 
@@ -24,7 +28,7 @@ const SharedLinkHandler = () => {
 
                         if (regionPart) {
 
-                            const proj_resp = await axios.post("http://127.0.0.1:8000/api/projects/get", {
+                            const proj_resp = await axios.post("${BASE_URL}/api/projects/get", {
                                 project_link: window.location.href
                             } , {withCredentials: true})
 

@@ -13,7 +13,7 @@ const Support = () => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post("http://127.0.0.1:8000/api/send-email/", data);
+            const response = await axios.post("${BASE_URL}/api/send-email/", data);
             alert(response.data.message);
             setPageState(2);
         } catch (error) {

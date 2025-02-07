@@ -3,6 +3,10 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import './style.css';
 
+import { SERVER, PORT } from '../../../_CONST_';
+
+const BASE_URL = (SERVER && PORT) ? `${BASE_URL}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 
 const SidebarMenu = ({ projects, activeSection, setActiveSection, setSelectedProject }) => (
     <div className="list-group list-group-flush">
@@ -136,7 +140,7 @@ const Dashboard = () => {
 
     // Fetch projects on component mount
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/projects/', { withCredentials: true })
+        axios.get(`${BASE_URL}/api/projects/`, { withCredentials: true })
             .then((response) => {
                 setProjects(response.data.merged_data);
             })

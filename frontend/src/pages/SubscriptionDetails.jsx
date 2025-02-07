@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+import { SERVER, PORT } from '../../_CONST_';
+
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 export const SubscriptionDetails = () => {
     const [isBuyer, setIsBuyer] = useState(false);
 
     const checkIsBuyer = async () => {
         try {
-            const resp = await axios.get('http://127.0.0.1:8000/api/check-session/', { withCredentials: true });
+            const resp = await axios.get(`${BASE_URL}/api/check-session/`, { withCredentials: true });
             if (resp.status === 200) {
                 setIsBuyer(resp.data.is_buyer);
             }
@@ -23,7 +27,7 @@ export const SubscriptionDetails = () => {
     // Function to handle the Stripe checkout session creation
     const handleCheckout = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/users/addbuyer', { withCredentials: true });
+            const response = await axios.get(`${BASE_URL}/api/users/addbuyer`, { withCredentials: true });
             if (response.status === 200) {
                 toast.success('You have successfully subscribed as a buyer!');
                 setIsBuyer(true); // Update state after successful subscription

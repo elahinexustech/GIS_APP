@@ -5,6 +5,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+import { SERVER, PORT } from '../../_CONST_';
+
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 const Register = () => {
     const [formData, setFormData] = useState({
         fullName: "",
@@ -32,7 +36,7 @@ const Register = () => {
         if (!termsAccepted) return toast.error("You must accept the terms and conditions!");
 
         try {
-            const response = await axios.post("http://127.0.0.1:8000/api/users/", {
+            const response = await axios.post(`${BASE_URL}/api/users/`, {
                 full_name: fullName,
                 email,
                 password,
