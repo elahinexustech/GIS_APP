@@ -56,7 +56,7 @@ const Demo = () => {
                         </p>
                     </section>
                     <video width={'50%'} controls style={{ marginLeft: '1rem' }}>
-                        <source src="/videos/MapsFuncsUsingsubscriberAccount.mp4" type="video/mp4" />
+                        <source src="/videos/MapsFuncsUsingBuyerAccount.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
                 </div>

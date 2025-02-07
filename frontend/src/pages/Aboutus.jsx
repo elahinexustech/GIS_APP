@@ -61,13 +61,13 @@ export const Aboutus = () => {
                         <div className="card-body text-center">
                             <h5 className="card-title">Follow Us</h5>
                             <div>
-                                <a href="#" className="btn btn-primary m-1">
+                                <a href="https://facebook.com/mappexgeo" className="btn btn-primary m-1">
                                     <i className="bi bi-facebook fs-4"></i>
                                 </a>
-                                <a href="#" className="btn btn-info m-1">
+                                <a href="http://x.com/mappexgeo" className="btn btn-info m-1">
                                     <i className="bi bi-twitter fs-4"></i>
                                 </a>
-                                <a href="#" className="btn btn-danger m-1">
+                                <a href="https://linkedIn.com/mappexgeo" className="btn btn-danger m-1">
                                     <i className="bi bi-linkedin fs-4"></i>
                                 </a>
                             </div>
