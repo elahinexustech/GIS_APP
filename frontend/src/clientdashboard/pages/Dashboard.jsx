@@ -5,7 +5,8 @@ import './style.css';
 
 import { SERVER, PORT } from '../../../_CONST_';
 
-const BASE_URL = (SERVER && PORT) ? `${BASE_URL}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
 
 
 const SidebarMenu = ({ projects, activeSection, setActiveSection, setSelectedProject }) => (

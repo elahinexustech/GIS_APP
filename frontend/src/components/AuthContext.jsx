@@ -7,13 +7,14 @@ export const AuthContext = createContext();
 
 import { SERVER, PORT } from '../../_CONST_';
 
-const BASE_URL = (SERVER && PORT) ? `${BASE_URL}` : '/choreo-apis/geographic-information-sy/backend/v1';
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
 
 // Provider component
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userId, setUserId] = useState(null);
     const [email, setEmail] = useState('');
+    const [isBuyer, setIsBuyer] = useState('');
 
 
 
@@ -25,6 +26,7 @@ export const AuthProvider = ({ children }) => {
                 setIsLoggedIn(response.data.isLoggedIn);
                 setUserId(response.data.user_id);
                 setEmail(response.data.email);
+                setIsBuyer(response.data.is_buyer)
             } catch (error) {
                 console.error("Error checking session:", error);
             }
@@ -34,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userId, email, setIsLoggedIn }}>
+        <AuthContext.Provider value={{ isLoggedIn, userId, email, setIsLoggedIn, isBuyer }}>
             {children}
         </AuthContext.Provider>
     );

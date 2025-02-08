@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from "react-toastify";
+import { SERVER, PORT } from '../../_CONST_';
+
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
 
 export const MapDashboard = ({ regionCoordinates, generateLinkDisable }) => {
     const [polygonCoordinates, setPolygonCoordinates] = useState(); // State to store polygon coordinates
@@ -12,7 +15,7 @@ export const MapDashboard = ({ regionCoordinates, generateLinkDisable }) => {
 
         const checkSession = async () => {
             try {
-                const response = await axios.get("${BASE_URL}/api/check-session", {
+                const response = await axios.get(`${BASE_URL}/api/check-session/`, {
                     withCredentials: true,
                 });
 
@@ -40,7 +43,7 @@ export const MapDashboard = ({ regionCoordinates, generateLinkDisable }) => {
 
         try {
             const response = await axios.post(
-                "${BASE_URL}/api/generate/link",
+                `${BASE_URL}/api/generate/link`,
                 {
                     coordinates: polygonCoordinates, // Use the polygon coordinates
                 },
