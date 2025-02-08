@@ -249,16 +249,13 @@ class MarkerInteractionCountView(APIView):
         user = get_object_or_404(User, id=user_id)
 
         if MarkerInteraction.objects.filter(marker=marker, user=user, icon_type=icon_type).exists():
-            print("ALREADY INTERACTED")
             return Response({"message": "User has already interacted with this icon."}, status=status.HTTP_208_ALREADY_REPORTED)
 
         MarkerInteraction.objects.create(
             marker=marker, user=user, icon_type=icon_type)
 
         # Increment interaction count
-        if icon_type != 'comment':
-            print("NOT A COMMENT MARKER")
-            marker.interaction_count += 1
+        marker.interaction_count = MarkerInteraction.objects.filter(marker=marker).count()
         marker.save()
 
         interaction_count = marker.interaction_count

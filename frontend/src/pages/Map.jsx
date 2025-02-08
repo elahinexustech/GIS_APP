@@ -694,7 +694,6 @@ const Map = () => {
                 createCustomMarkers(lngLat, selectedIcon);
 
                 const resp = await axios.post(`${BASE_URL}/api/markers/`, markerData, { withCredentials: true });
-                console.log(resp)
 
                 setMarkers([...markers, markerData]);
             } else {
