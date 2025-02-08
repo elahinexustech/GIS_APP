@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
-import { SERVER, PORT } from '../../_CONST_';
+import {BASE_URL} from '../../_CONST_';
 
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 
 const SharedLinkHandler = () => {
     const navigate = useNavigate();

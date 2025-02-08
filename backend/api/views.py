@@ -464,7 +464,7 @@ class GenerateLink(APIView):
                 # Assuming GeoJSON-style array
                 [f"{point[0]}_{point[1]}" for point in coordinates[0]]
             )
-            generated_link = f"http://localhost:5173/buyers/maps?region={encoded_coordinates}/invite"
+            generated_link = f"buyers/maps?region={encoded_coordinates}/invite"
 
             # Create the CouponLink object
             coupon_link = CouponLink.objects.create(

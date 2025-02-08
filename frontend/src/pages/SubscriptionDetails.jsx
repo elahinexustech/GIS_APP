@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-import { SERVER, PORT } from '../../_CONST_';
+import {BASE_URL} from '../../_CONST_';
 
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 
 export const SubscriptionDetails = () => {
     const [isBuyer, setIsBuyer] = useState(false);

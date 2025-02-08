@@ -5,9 +5,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../components/AuthContext.jsx";
 
-import { SERVER, PORT } from '../../_CONST_';
+import {BASE_URL} from '../../_CONST_';
 
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 
 export const Signin = () => {
     const [email, setEmail] = useState("");

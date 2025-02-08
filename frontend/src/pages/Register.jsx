@@ -5,9 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import { SERVER, PORT } from '../../_CONST_';
+import {BASE_URL} from '../../_CONST_';
 
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 
 const Register = () => {
     const [formData, setFormData] = useState({

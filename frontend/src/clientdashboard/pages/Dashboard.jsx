@@ -3,10 +3,10 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import './style.css';
 
-import { SERVER, PORT } from '../../../_CONST_';
+import {BASE_URL} from '../../../_CONST_';
 
 
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 
 
 const SidebarMenu = ({ projects, activeSection, setActiveSection, setSelectedProject }) => (
@@ -201,7 +201,10 @@ const Dashboard = () => {
                                     <button
                                         className="btn btn-transparent d-flex align-items-center p-2"
                                         onClick={() => {
-                                            navigator.clipboard.writeText(selectedProject.coupon.link);
+
+                                            navigator.clipboard.writeText(`
+                                                ${window.location.href.split('/dashboard')[0]}/${selectedProject.coupon.link}
+                                            `);
                                             toast.success('Link copied to clipboard!');
                                         }}
                                     >

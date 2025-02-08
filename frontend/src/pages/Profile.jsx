@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import { SERVER, PORT } from '../../_CONST_';
+import {BASE_URL} from '../../_CONST_';
 
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 
 export const Profile = () => {
     const [user, setUser] = useState(null); // State to store user details

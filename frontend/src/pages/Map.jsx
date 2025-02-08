@@ -13,9 +13,9 @@ import axios from 'axios';
 
 mapboxgl.accessToken = "pk.eyJ1IjoibWVycmlsIiwiYSI6ImNscTZ0dHBwcjB3cGUyam14eWlxM3Q1aWgifQ.WxB3FepLWrhZ4kqtL2F5Iw";
 
-import { SERVER, PORT } from '../../_CONST_';
+import {BASE_URL} from '../../_CONST_';
 
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/geographic-information-sy/backend/v1';
+
 
 const Map = () => {
     const { setSelectedRegion } = useContext(RegionContext);
@@ -57,7 +57,7 @@ const Map = () => {
             container: mapContainer.current,
             style: "mapbox://styles/mapbox/streets-v11",
             center: [-87.63236, 41.881954],
-            zoom: 3,
+            zoom: 9,
         });
 
         if (!isRegionProvided) {
@@ -79,9 +79,9 @@ const Map = () => {
             if (polygonCoordinates.length > 0) {
                 setBoundaryFromPolygon([polygonCoordinates]);
                 const center = getPolygonCenter(polygonCoordinates);
-                mapRef.current.flyTo({ center, zoom: 12 });
+                mapRef.current.flyTo({ center, zoom: 16 });
             } else {
-                mapRef.current.flyTo({ center: [-87.63236, 41.881954], zoom: 12 });
+                mapRef.current.flyTo({ center: [-87.63236, 41.881954], zoom: 16});
             }
         }
 
@@ -739,7 +739,7 @@ const Map = () => {
                 const { center, geometry } = feature;
 
                 const [lon, lat] = center;
-                mapRef.current.flyTo({ center: [lon, lat], zoom: 12 });
+                mapRef.current.flyTo({ center: [lon, lat], zoom: 16 });
 
                 setSelectedRegion([{ latitude: lat, longitude: lon }]);
 
@@ -918,7 +918,7 @@ const Map = () => {
         });
 
         const center = getPolygonCenter([polygonCoordinates]);
-        mapRef.current.flyTo({ center, zoom: 12 });
+        mapRef.current.flyTo({ center, zoom: 16});
     }
 
     return (
