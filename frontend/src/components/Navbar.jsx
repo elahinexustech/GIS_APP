@@ -5,6 +5,8 @@ import { AuthContext } from './AuthContext.jsx';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { BASE_URL } from '../../_CONST_.js';
+
 export const Navbar = () => {
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -12,7 +14,7 @@ export const Navbar = () => {
     const handleLogout = async () => {
         if (confirm("Are you sure you want to logout!")) {
             try {
-                await axios.post('${BASE_URL}/api/logout/', {}, { withCredentials: true });
+                await axios.post(`${BASE_URL}/api/logout/`, {}, { withCredentials: true });
                 setIsLoggedIn(false);
                 navigate('/login');
             } catch (error) {

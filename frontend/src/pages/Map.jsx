@@ -13,12 +13,14 @@ import axios from 'axios';
 
 mapboxgl.accessToken = "pk.eyJ1IjoibWVycmlsIiwiYSI6ImNscTZ0dHBwcjB3cGUyam14eWlxM3Q1aWgifQ.WxB3FepLWrhZ4kqtL2F5Iw";
 
-import {BASE_URL} from '../../_CONST_';
+import { BASE_URL } from '../../_CONST_';
+import { AuthContext } from "../components/AuthContext";
 
 
 
 const Map = () => {
     const { setSelectedRegion } = useContext(RegionContext);
+    const { userId } = useContext(AuthContext);
     const [markers, setMarkers] = useState([]);
     const [selectedIcon, setSelectedIcon] = useState(null);
     const [showToolbar, setShowToolbar] = useState(false);
@@ -81,7 +83,7 @@ const Map = () => {
                 const center = getPolygonCenter(polygonCoordinates);
                 mapRef.current.flyTo({ center, zoom: 16 });
             } else {
-                mapRef.current.flyTo({ center: [-87.63236, 41.881954], zoom: 16});
+                mapRef.current.flyTo({ center: [-87.63236, 41.881954], zoom: 16 });
             }
         }
 
@@ -422,7 +424,7 @@ const Map = () => {
             } else {
                 const commentSections = document.querySelectorAll(".comment-section");
                 commentSections.forEach(section => section.remove());
-                fetchMarkerDetails(markerId, userId);
+                fetchMarkerDetails(markerId);
             }
         });
     };
@@ -628,46 +630,43 @@ const Map = () => {
 
 
 
-    const fetchMarkerDetails = (markerId, userId) => {
-        fetch(`${BASE_URL}/api/markers/${markerId}/`)
-            .then((response) => response.json())
-            .then((data) => {
-                const iconType = data.icon_type;
-                const markerOwner = data.user;
+    const fetchMarkerDetails = async (markerId) => {
+        try {
+            const response = await fetch(`${BASE_URL}/api/markers/${markerId}/`);
+            const data = await response.json();
 
-                const interactionData = {
-                    marker_id: markerId,
-                    user: markerOwner,
-                    icon_type: iconType,
-                };
+            const iconType = data.icon_type;
 
-                console.log(interactionData)
 
-                fetch(`${BASE_URL}/api/markers/interactions/`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(interactionData),
-                })
-                    .then((response) => response.json())
-                    .then((interactionResponse) => {
-                        setMarkers((prevMarkers) =>
-                            prevMarkers.map((marker) =>
-                                marker.id === markerId
-                                    ? { ...marker, interaction_count: interactionResponse.interaction_count }
-                                    : marker
-                            )
-                        );
-                    })
-                    .catch((error) => {
-                        console.error("Error saving marker interaction:", error);
-                    });
-            })
-            .catch((error) => {
-                console.error("Error fetching marker details:", error);
+            const interactionData = {
+                marker_id: markerId,
+                user: userId,
+                icon_type: iconType,
+            };
+
+            const interactionResponse = await fetch(`${BASE_URL}/api/markers/interactions/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(interactionData),
             });
+
+            const interactionDataJson = await interactionResponse.json();
+
+            setMarkers((prevMarkers) =>
+                prevMarkers.map((marker) =>
+                    marker.id === markerId
+            ? { ...marker, interaction_count: interactionDataJson.interaction_count }
+            : marker
+                )
+            );
+
+        } catch (error) {
+            console.error("Error in fetchMarkerDetails:", error);
+        }
     };
+
 
     const handleMarkerClick = (id, type) => {
         setSelectedMarkerId(parseInt(id));
@@ -918,7 +917,7 @@ const Map = () => {
         });
 
         const center = getPolygonCenter([polygonCoordinates]);
-        mapRef.current.flyTo({ center, zoom: 16});
+        mapRef.current.flyTo({ center, zoom: 16 });
     }
 
     return (

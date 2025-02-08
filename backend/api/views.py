@@ -241,8 +241,10 @@ class MarkerRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
 # Marker Interaction Count
 class MarkerInteractionCountView(APIView):
     def post(self, request):
+        print(request.data)
         marker_id = request.data.get('marker_id')
         user_id = request.data.get('user')
+        
         icon_type = request.data.get('icon_type')
 
         marker = get_object_or_404(Marker, id=marker_id)
@@ -251,14 +253,13 @@ class MarkerInteractionCountView(APIView):
         if MarkerInteraction.objects.filter(marker=marker, user=user, icon_type=icon_type).exists():
             return Response({"message": "User has already interacted with this icon."}, status=status.HTTP_208_ALREADY_REPORTED)
 
-        MarkerInteraction.objects.create(
-            marker=marker, user=user, icon_type=icon_type)
-
         # Increment interaction count
-        marker.interaction_count = MarkerInteraction.objects.filter(marker=marker).count()
+        if icon_type != 'comment':
+            marker.interaction_count += 1
         marker.save()
 
         interaction_count = marker.interaction_count
+
 
         return Response({"message": "Interaction saved successfully.", "interaction_count": interaction_count}, status=status.HTTP_201_CREATED)
 
