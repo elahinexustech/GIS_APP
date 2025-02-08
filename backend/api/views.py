@@ -185,12 +185,13 @@ class MarkerListCreateView(generics.ListCreateAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Step 2: Validate the 'project' field
-        print(data)
         try:
-            project_id = data['project']['id']
+            project_id = data['project']['id'] if isinstance(data['project'], dict) else data['project']
         except TypeError as e:
-            project_id = data['project']
+            return Response(
+                {"error": "Invalid project data."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         project = get_object_or_404(ProjectsModel, id=project_id)
 
         # Step 3: Additional validation logic (if needed)
@@ -215,7 +216,8 @@ class MarkerListCreateView(generics.ListCreateAPIView):
                 project=project,  # Default interaction count
                 user=User.objects.get(id=request.session.get('user_id'))
             )
-            marker.interaction_count += 1
+            if data['icon_type'] != 'comment':
+                marker.interaction_count += 1
             marker.save()
 
             # Serialize the saved marker instance
@@ -229,8 +231,6 @@ class MarkerListCreateView(generics.ListCreateAPIView):
                 {"error": f"An error occurred while saving the marker: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-
-
 
 
 class MarkerRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
@@ -256,7 +256,9 @@ class MarkerInteractionCountView(APIView):
             marker=marker, user=user, icon_type=icon_type)
 
         # Increment interaction count
-        marker.interaction_count += 1
+        if icon_type != 'comment':
+            print("NOT A COMMENT MARKER")
+            marker.interaction_count += 1
         marker.save()
 
         interaction_count = marker.interaction_count
@@ -371,9 +373,14 @@ class GetProjects(APIView):
         project_link = req.data.get('project_link')
         if not project_link:
             return JsonResponse({"error": "Project ID is required"}, status=400)
+        
+        
+        split_list = project_link.split("/")[3:]
+        result = "/".join(split_list)
+        
 
         try:
-            coupon_link = CouponLink.objects.get(link=project_link)
+            coupon_link = CouponLink.objects.get(link=result)
             project = ProjectsModel.objects.get(coupon_link=coupon_link)
             
             user_id = req.session.get('user_id')

@@ -26,6 +26,7 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet, basename="user")
 
 # Define urlpatterns
+
 urlpatterns = [
     path('', include(router.urls)),  # Include router URLs for User and SubscriptionPlan
     

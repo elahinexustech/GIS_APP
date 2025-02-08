@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from "react-toastify";
-import {BASE_URL} from '../../_CONST_';
+import { BASE_URL } from '../../_CONST_';
 
 
 
@@ -74,7 +74,7 @@ export const MapDashboard = ({ regionCoordinates, generateLinkDisable }) => {
         <>
             <header>
                 {/* Sidebar */}
-                <nav id="sidebarMenu" className="collapse d-lg-block sidebar collapse bg-white">
+                <nav id="sidebarMenu" className="collapse d-lg-block sidebar collapse bg-white" style={{position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 1000}}>    
                     <div className="position-sticky">
                         <div className="list-group list-group-flush mx-3 mt-4">
                             <Link to="/" className="list-group-item list-group-item-action py-2" aria-current="true">
